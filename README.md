@@ -10,7 +10,7 @@ We set up two notebooks (in the corresponding folder):
 We saved the ```.py``` scripts used in the project in the corresponding folder, so all code is available.
 
 ### Parameters and network
-We saved the fitted parameters of each rat in the folder ```parameters_and_network```, altogether with the network trained with 10M trials.
+We saved parameters fitted to each rat in the folder ```parameters_and_network```, altogether with the network trained with 10M trials.
 
 ### Requeriments
 - ```sbi```: [Tejero-Cantero et al., (2020)](https://joss.theoj.org/papers/10.21105/joss.02505), in which MNLE is developed. [Github](https://github.com/sbi-dev/sbi).
