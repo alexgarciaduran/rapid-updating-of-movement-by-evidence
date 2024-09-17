@@ -6,8 +6,8 @@ Acting in the natural world requires not only deciding among multiple options bu
 
 ### Notebooks
 We set up two notebooks:
-- Figures: in which you will be able to load the data, available [here](https://osf.io/794vk/), and reproduce the main figures from the manuscript. All details from data are in the link provided and in the notebooks.
-- MNLE_fitting_pipeline: in which you will see and play with the fitting procedure, starting from training a Mixed Neural Likelihood Estimator (MNLE, [Boelts et al. 2022](https://elifesciences.org/articles/77220)), and finding the approximate Maximum Likelihood Estimate with Bayesian Adaptive Direct Search (BADS, [Acerbi and Ma, 2017](https://papers.nips.cc/paper_files/paper/2017/hash/df0aab058ce179e4f7ab135ed4e641a9-Abstract.html)).
+- ```Figures.ipynb```: in which you will be able to load the data, available [here](https://osf.io/794vk/), and reproduce the main figures from the manuscript. All details from data are in the link provided and in the notebooks.
+- ```MNLE_fitting_pipeline.ipynb```: in which you will see and play with the fitting procedure, starting from training a Mixed Neural Likelihood Estimator (MNLE, [Boelts et al. 2022](https://elifesciences.org/articles/77220)), and finding the approximate Maximum Likelihood Estimate with Bayesian Adaptive Direct Search (BADS, [Acerbi and Ma, 2017](https://papers.nips.cc/paper_files/paper/2017/hash/df0aab058ce179e4f7ab135ed4e641a9-Abstract.html)).
 
 ### Requeriments
 - ```sbi```: [Tejero-Cantero et al., (2020)](https://joss.theoj.org/papers/10.21105/joss.02505), in which MNLE is developed. [Github](https://github.com/sbi-dev/sbi).
