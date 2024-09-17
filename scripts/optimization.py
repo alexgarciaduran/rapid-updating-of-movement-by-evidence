@@ -553,32 +553,11 @@ def opt_mnle(df, num_simulations, bads=True, training=False, extra_label=""):
         stim[df.soundrfail, :] = 0
         # Prepare data:
         coh = np.resize(coh, num_simulations)
-        # np.random.shuffle(coh)
         zt = np.resize(zt, num_simulations)
-        # np.random.shuffle(zt)
+        # np.random.shuffle(zt)  # data can be shuffled
         trial_index = np.resize(trial_index, num_simulations)
-        # np.random.shuffle(trial_index)
+        # np.random.shuffle(trial_index)  # data can be shuffled
         stim = np.resize(stim, (num_simulations, 20))
-        # np.random.shuffle(stim)
-        if not bads:
-            # motor time: in seconds (must be multiplied then by 1e3)
-            mt = df.resp_len.values
-            choice = df.R_response.values
-            sound_len = np.array(df.sound_len)
-            mt = np.resize(mt, num_simulations)
-            choice = np.resize(choice, num_simulations)
-            # com = np.resize(com, num_simulations)
-            # choice_and_com = com + choice*2
-            rt = np.resize(sound_len + 300, num_simulations)
-            # w.r.t fixation onset
-            x_o = torch.column_stack((torch.tensor(mt*1e3),  # MT in ms
-                                      torch.tensor(rt),
-                                      torch.tensor(choice)))
-            x_o = x_o.to(torch.float32)
-            # to save some memory
-            choice = []
-            rt = []
-            mt = []
         print('Data preprocessed, building prior distros')
         # build prior: ALL PARAMETERS ASSUMED POSITIVE
         df = []  # ONLY FOR TRAINING
@@ -631,7 +610,6 @@ def opt_mnle(df, num_simulations, bads=True, training=False, extra_label=""):
               ' simulations, it took ' + str(int(time.time() - time_start)/60)
               + ' mins')
     else:  # network is already trained
-        x_o = []
         with open(SV_FOLDER + f"/mnle_n{num_simulations}_no_noise" + extra_label + ".p",
                   'rb') as f:
             estimator = pickle.load(f)
@@ -1196,20 +1174,11 @@ def dist_lh_model_nn(n_sim_train, cohval, ztval, tival, num_simulations=int(5e5)
     return bhatt_dist(mat_model, mat_nn), np.nansum(dist.jensenshannon(mat_model, mat_nn))
 
 
-def get_human_data(user_id, sv_folder=SV_FOLDER, nm='300'):
+def get_human_data(folder, sv_folder=SV_FOLDER, nm='300'):
     """
     Function to retrieve human data.
     """
-    if user_id == 'alex':
-        folder = 'C:\\Users\\alexg\\Onedrive\\Escritorio\\CRM\\Human\\80_20\\'+nm+'ms\\'
-    if user_id == 'alex_CRM':
-        folder = 'C:/Users/agarcia/Desktop/CRM/human/'
-    if user_id == 'idibaps':
-        folder =\
-            '/home/molano/Dropbox/project_Barna/psycho_project/80_20/'+nm+'ms/'
-    if user_id == 'idibaps_alex':
-        folder = '/home/jordi/DATA/Documents/changes_of_mind/humans/'+nm+'ms/'
-    subj = ['general_traj_all']
+    subj = ['human_data']
     steps = [None]
     # retrieve data
     df = ah.traj_analysis(data_folder=folder,
