@@ -35,44 +35,8 @@ plt.rcParams['font.sans-serif'] = 'Helvetica'
 matplotlib.rcParams['lines.markersize'] = 3
 
 # ---GLOBAL VARIABLES
-pc_name = 'alex'
-if pc_name == 'alex':
-    RAT_COM_IMG = 'C:/Users/Alexandre/Desktop/CRM/rat_image/001965.png'
-    SV_FOLDER = 'C:/Users/alexg/Onedrive/Escritorio/CRM/'  # Alex
-    DATA_FOLDER = 'C:/Users/alexg/Onedrive/Escritorio/CRM/filtered_data/'  # Alex
-    RAT_noCOM_IMG = 'C:/Users/Alexandre/Desktop/CRM/rat_image/screenShot230120.png'
-    TASK_IMG = 'C:/Users/Alexandre/Desktop/CRM/rat_image/panel_a.png'
-    HUMAN_TASK_IMG = 'C:/Users/Alexandre/Desktop/CRM/rat_image/g41085.png'
-elif pc_name == 'idibaps':
-    DATA_FOLDER = '/home/molano/ChangesOfMind/data/'  # Manuel
-    SV_FOLDER = '/home/molano/Dropbox/project_Barna/' +\
-        'ChangesOfMind/figures/from_python/'  # Manuel
-    RAT_noCOM_IMG = '/home/molano/Dropbox/project_Barna/' +\
-        'ChangesOfMind/figures/Figure_1/screenShot230120.png'
-    RAT_COM_IMG = '/home/molano/Dropbox/project_Barna/' +\
-        'ChangesOfMind/figures/Figure_3/001965.png'
-    TASK_IMG = '/home/molano/Dropbox/project_Barna/ChangesOfMind/' +\
-        'figures/Figure_1/panel_a.png'
-elif pc_name == 'idibaps_alex':
-    SV_FOLDER = '/home/jordi/DATA/Documents/changes_of_mind/'  # Jordi
-    DATA_FOLDER = '/home/jordi/DATA/Documents/changes_of_mind/data_clean/'  # Jordi
-    RAT_COM_IMG = '/home/jordi/Documents/changes_of_mind/demo/materials/' +\
-        'craft_vid/CoM/a/001965.png'
-    RAT_noCOM_IMG = '/home/jordi/DATA/Documents/changes_of_mind/data_clean/' +\
-        'screenShot230120.png'
-    HUMAN_TASK_IMG = '/home/jordi/DATA/Documents/changes_of_mind/humans/g41085.png'
-elif pc_name == 'alex_CRM':
-    SV_FOLDER = 'C:/Users/agarcia/Desktop/CRM/Alex/paper/'  # Alex CRM
-    DATA_FOLDER = 'C:/Users/agarcia/Desktop/CRM/Alex/paper/data/'  # Alex CRM
-    RAT_COM_IMG = 'C:/Users/agarcia/Desktop/CRM/proves/001965.png'
-    RAT_noCOM_IMG = 'C:/Users/agarcia/Desktop/CRM/proves/screenShot230120.png'
-    HUMAN_TASK_IMG = 'C:/Users/agarcia/Desktop/CRM/rat_image/g41085.png'
-    TASK_IMG = 'C:/Users/agarcia/Desktop/CRM/Alex/paper/panel_a.png'
-elif pc_name == 'sara':
-    SV_FOLDER = 'C:/Users/Sara Fuentes/OneDrive - Universitat de Barcelona/' +\
-        'Documentos/EBM/4t/IDIBAPS'
-    DATA_FOLDER = 'C:/Users/Sara Fuentes/OneDrive - Universitat de Barcelona/'+\
-        'Documentos/EBM/4t/IDIBAPS'
+SV_FOLDER = '...'
+DATA_FOLDER = '...'
 
 FRAME_RATE = 14
 BINS_RT = np.linspace(1, 301, 11)
