@@ -15,6 +15,7 @@ We set up two notebooks:
 
 
 ### Citation
+```
 @Article{MolanoMazon2023,
   author    = {Molano-Mazón, Manuel and Garcia-Duran, Alexandre and Pastor-Ciurana, Jordi and Hernández-Navarro, Lluís and Bektic, Lejla and Lombardo, Debora and de la Rocha, Jaime and Hyafil, Alexandre},
   title     = {Rapid, systematic updating of movement by accumulated decision evidence},
@@ -23,3 +24,4 @@ We set up two notebooks:
   doi       = {10.1101/2023.11.09.566389},
   publisher = {Cold Spring Harbor Laboratory},
 }
+```
