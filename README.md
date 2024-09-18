@@ -3,7 +3,7 @@ Repository for the paper ["Rapid, systematic updating of movement by accumulated
 
 <img src="figs/figure_5.png"
      alt="Figure 5"
-     style="float: left; margin-right: 10px;" />
+     style="float: left; margin-right: 5px;" />
 
 Please report any bug / missing function.
 
