@@ -9,10 +9,6 @@ We set up two notebooks (in the corresponding folder):
 ### Scripts
 We saved the ```.py``` scripts used in the project in the corresponding folder, so all code is available.
 
-### Parameters and network
-We saved parameters fitted to each rat in the folder ```parameters_and_network```, altogether with the network trained with 10M trials.
-
-
 ### Figs:
 This folder contains the schematics (in .png) shown in the main figures. Needed in ```Figures.ipynb``` notebook for correct reproduction of main figures.
 
