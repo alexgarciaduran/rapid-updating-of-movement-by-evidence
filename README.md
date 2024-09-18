@@ -1,6 +1,10 @@
 # rapid-updating-of-movement-by-evidence
 Repository for the paper ["Rapid, systematic updating of movement by accumulated decision evidence"](https://www.biorxiv.org/content/10.1101/2023.11.09.566389v2) by Manuel Molano-Mazón, Alexandre Garcia-Duran, Jordi Pastor-Ciurana, Lluís Hernández-Navarro, Lejla Bektic, Debora Lombardo, Jaime de la Rocha & Alexandre Hyafil.
 
+<img src="figs/figure_5.png"
+     alt="Figure 5"
+     style="float: left; margin-right: 10px;" />
+
 Please report any bug / missing function.
 
 ### Notebooks
