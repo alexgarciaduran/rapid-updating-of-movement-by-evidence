@@ -12,6 +12,10 @@ We saved the ```.py``` scripts used in the project in the corresponding folder, 
 ### Parameters and network
 We saved parameters fitted to each rat in the folder ```parameters_and_network```, altogether with the network trained with 10M trials.
 
+
+### Figs:
+This folder contains the schematics (in .png) shown in the main figures. Needed in ```Figures.ipynb``` notebook for correct reproduction of main figures.
+
 ### Requeriments
 - ```sbi```: [Tejero-Cantero et al., (2020)](https://joss.theoj.org/papers/10.21105/joss.02505), in which MNLE is developed. [Github](https://github.com/sbi-dev/sbi).
 - ```pybads```: [Singh et al., (2024)](https://joss.theoj.org/papers/10.21105/joss.05694), [Github](https://github.com/acerbilab/pybads).
