@@ -20,6 +20,11 @@ This folder contains the schematics (in .png) shown in the main figures. Needed 
 - ```sbi```: [Tejero-Cantero et al., (2020)](https://joss.theoj.org/papers/10.21105/joss.02505), in which MNLE is developed. [Github](https://github.com/sbi-dev/sbi).
 - ```pybads```: [Singh et al., (2024)](https://joss.theoj.org/papers/10.21105/joss.05694), [Github](https://github.com/acerbilab/pybads).
 
+To run the notebooks locally, run
+```
+pip install -r requirements.txt
+```
+
 
 ### Citation
 ```
