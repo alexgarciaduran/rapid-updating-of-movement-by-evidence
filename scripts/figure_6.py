@@ -796,8 +796,8 @@ def fig_6_model(sv_folder, data_folder, new_data, save_new_data,
     fig.savefig(sv_folder+subject+'/fig5.png', dpi=400, bbox_inches='tight')
     mean_com_traj_simul(df_sim, ax=ax[11], data_folder=data_folder, new_data=new_data,
                         save_new_data=save_new_data)
-    fig.savefig(sv_folder+subject+'/fig5.png', dpi=400, bbox_inches='tight')
-    fig.savefig(sv_folder+subject+'/fig5.svg', dpi=400, bbox_inches='tight')
+    fig.savefig(sv_folder+subject+'/fig6.png', dpi=400, bbox_inches='tight')
+    fig.savefig(sv_folder+subject+'/fig6.svg', dpi=400, bbox_inches='tight')
 
 
 def shortpad2(row, upto=1000, align='sound', pad_value=np.nan,
