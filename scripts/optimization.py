@@ -28,6 +28,7 @@ import different_models as model_variations
 SV_FOLDER = '...'
 DATA_FOLDER = '...'
 
+
 BINS = np.arange(1, 320, 20)
 CTE = 1/2 * 1/600 * 1/995  # contaminants
 CTE_FB = 1/600
@@ -224,10 +225,10 @@ def fun_theta(theta, data, estimator, n_trials, eps=1e-3, weight_LLH_fb=1):
 
 
 def simulations_for_mnle(theta_all, stim, zt, coh, trial_index,
-                         simulate=False, extra_label=''):
+                         simulate=False, sv_folder='', extra_label=''):
     # run simulations
     x = torch.tensor(())
-    simul_data = SV_FOLDER+'/network/NN_simulations'+str(len(zt))+'.npy'
+    simul_data = sv_folder +'/network/NN_simulations'+str(len(zt))+'.npy'
     # create folder if it doesn't exist
     os.makedirs(os.path.dirname(simul_data), exist_ok=True)
     if os.path.exists(simul_data) and not simulate:
@@ -540,7 +541,8 @@ def prepare_fb_data(df):
     return data
 
 
-def opt_mnle(df, num_simulations, bads=True, training=False, extra_label=""):
+def opt_mnle(df, num_simulations, sv_folder=SV_FOLDER,
+             bads=True, training=False, extra_label=""):
     """
     MNLE network training and BADS optimization.
     """
@@ -572,7 +574,7 @@ def opt_mnle(df, num_simulations, bads=True, training=False, extra_label=""):
         theta_all_inp = theta_all_inp.to(torch.float32)
         # SIMULATION
         x = simulations_for_mnle(theta_all, stim, zt, coh, trial_index, simulate=True,
-                                 extra_label=extra_label)
+                                 extra_label=extra_label, sv_folder=SV_FOLDER)
         # now we have a matrix of (num_simulations x 3):
         # MT, RT, CHOICE for each simulation
 
@@ -598,11 +600,11 @@ def opt_mnle(df, num_simulations, bads=True, training=False, extra_label=""):
                                              x[~nan_mask, :])
         estimator = trainer.train(show_train_summary=True)
         # save the network
-        with open(SV_FOLDER + f"/mnle_n{num_simulations}_no_noise" + extra_label + ".p",
+        with open(sv_folder + f"/mnle_n{num_simulations}_no_noise" + extra_label + ".p",
                   "wb") as fh:
             pickle.dump(dict(estimator=estimator,
                              num_simulations=num_simulations), fh)
-        with open(SV_FOLDER + f"/trainer_n{num_simulations}_no_noise" + extra_label + ".p",
+        with open(sv_folder + f"/trainer_n{num_simulations}_no_noise" + extra_label + ".p",
                   "wb") as fh:
             pickle.dump(dict(trainer=trainer,
                              num_simulations=num_simulations), fh)
@@ -610,11 +612,11 @@ def opt_mnle(df, num_simulations, bads=True, training=False, extra_label=""):
               ' simulations, it took ' + str(int(time.time() - time_start)/60)
               + ' mins')
     else:  # network is already trained
-        with open(SV_FOLDER + f"/mnle_n{num_simulations}_no_noise" + extra_label + ".p",
+        with open(sv_folder + f"/mnle_n{num_simulations}_no_noise" + extra_label + ".p",
                   'rb') as f:
             estimator = pickle.load(f)
         if not bads:
-            with open(SV_FOLDER + f"/trainer_n{num_simulations}_no_noise" + extra_label + ".p",
+            with open(sv_folder + f"/trainer_n{num_simulations}_no_noise" + extra_label + ".p",
                       'rb') as f:
                 trainer = pickle.load(f)
             trainer = estimator['trainer']
@@ -763,11 +765,11 @@ def plot_network_model_comparison(df, ax, sv_folder=SV_FOLDER, num_simulations=i
             i += 1
     else:
         if not plot_nn_alone:
-            mat_0 = np.load(SV_FOLDER + '/10M/mat0_coh{}_zt{}_ti{}.npy'
+            mat_0 = np.load(sv_folder + '/10M/mat0_coh{}_zt{}_ti{}.npy'
                             .format(cohval, ztval, tival))
-            mat_1 = np.load(SV_FOLDER + '/10M/mat1_coh{}_zt{}_ti{}.npy'
+            mat_1 = np.load(sv_folder + '/10M/mat1_coh{}_zt{}_ti{}.npy'
                             .format(cohval, ztval, tival))
-            x = np.load(SV_FOLDER + '/10M/coh{}_zt{}_ti{}.npy'
+            x = np.load(sv_folder + '/10M/coh{}_zt{}_ti{}.npy'
                         .format(cohval, ztval, tival))
         trial_index = np.repeat(tival, num_simulations)
     # grid of MT, RT on which approximate likelihood of the network will be computed
@@ -784,7 +786,7 @@ def plot_network_model_comparison(df, ax, sv_folder=SV_FOLDER, num_simulations=i
     if plot_nn:
         for n_sim_train in n_list:
             # we load estimator
-            with open(SV_FOLDER + "/mnle_n{}_no_noise.p".format(n_sim_train),
+            with open(sv_folder + "/mnle_n{}_no_noise.p".format(n_sim_train),
                       'rb') as f:
                 estimator = pickle.load(f)
             estimator = estimator['estimator']
@@ -896,11 +898,11 @@ def plot_nn_to_nn_comparison(n_trials=10000000, sv_folder=SV_FOLDER):
     # generated data
     x_o = torch.tensor(np.concatenate((comb_0, comb_1))).to(torch.float32)
     # we load estimator
-    with open(SV_FOLDER + "/mnle_n{}_no_noise.p".format(n_trials),
+    with open(sv_folder + "/mnle_n{}_no_noise.p".format(n_trials),
               'rb') as f:
         estimator_1 = pickle.load(f)
     estimator_1 = estimator_1['estimator']
-    with open(SV_FOLDER + "/mnle_n{}_no_noise_v2.p".format(n_trials),
+    with open(sv_folder + "/mnle_n{}_no_noise_v2.p".format(n_trials),
               'rb') as f:
         estimator_2 = pickle.load(f)
     estimator_2 = estimator_2['estimator']
@@ -1072,15 +1074,16 @@ def bhatt_dist(p, q):
     return -np.log(np.sum(np.sqrt(p*q)))
 
 
-def supp_plot_dist_vs_n(ax, n_list=[1000, 10000, 100000, 500000, 1000000, 2000000,
-                                    4000000, 10000000]):
+def supp_plot_dist_vs_n(ax, sv_folder=SV_FOLDER,
+                        n_list=[1000, 10000, 100000, 500000, 1000000, 2000000,
+                                4000000, 10000000]):
     """
     Plot distance between model and networks trained on increasing number of trials.
     """
     # retrieve simulated data on 100 random selected trials
-    cohvals = np.load(SV_FOLDER + '/10M/100_sims/cohvals.npy', allow_pickle=True)
-    ztvals = np.load(SV_FOLDER + '/10M/100_sims/ztvals.npy', allow_pickle=True)
-    tivals = np.load(SV_FOLDER + '/10M/100_sims/tivals.npy', allow_pickle=True)
+    cohvals = np.load(sv_folder + '/10M/100_sims/cohvals.npy', allow_pickle=True)
+    ztvals = np.load(sv_folder + '/10M/100_sims/ztvals.npy', allow_pickle=True)
+    tivals = np.load(sv_folder + '/10M/100_sims/tivals.npy', allow_pickle=True)
     bhat_mat = np.zeros((len(cohvals), len(n_list)))
     js_mat = np.zeros((len(cohvals), len(n_list)))
     for i_n, n_trial in enumerate(n_list):  # for each network
@@ -1113,7 +1116,8 @@ def supp_plot_dist_vs_n(ax, n_list=[1000, 10000, 100000, 500000, 1000000, 200000
     ax[1].set_ylabel('Jensen-Shannon \n distance')
 
 
-def dist_lh_model_nn(n_sim_train, cohval, ztval, tival, num_simulations=int(5e5)):
+def dist_lh_model_nn(n_sim_train, cohval, ztval, tival, num_simulations=int(5e5),
+                     sv_folder=SV_FOLDER):
     """
     Computes Bhattacharyya and Jensen-Shannon distances between network and
     model simulations.
@@ -1132,12 +1136,12 @@ def dist_lh_model_nn(n_sim_train, cohval, ztval, tival, num_simulations=int(5e5)
     # generated data
     x_o = torch.tensor(np.concatenate((comb_0, comb_1))).to(torch.float32)
     trial_index = np.repeat(tival, num_simulations)
-    mat_0 = np.load(SV_FOLDER + '/10M/100_sims/mat0_coh{}_zt{}_ti{}.npy'
+    mat_0 = np.load(sv_folder + '/10M/100_sims/mat0_coh{}_zt{}_ti{}.npy'
                     .format(cohval, ztval, tival))
-    mat_1 = np.load(SV_FOLDER + '/10M/100_sims/mat1_coh{}_zt{}_ti{}.npy'
+    mat_1 = np.load(sv_folder + '/10M/100_sims/mat1_coh{}_zt{}_ti{}.npy'
                     .format(cohval, ztval, tival))
     # we load estimator
-    with open(SV_FOLDER + "/mnle_n{}_no_noise.p".format(n_sim_train),
+    with open(sv_folder + "/mnle_n{}_no_noise.p".format(n_sim_train),
               'rb') as f:
         estimator = pickle.load(f)
     estimator = estimator['estimator']
@@ -1218,7 +1222,7 @@ def human_fitting(df, subject, sv_folder=SV_FOLDER,  num_simulations=int(10e6)):
                                torch.tensor(trial_index.astype(float)),
                                x_o))
     # load network
-    with open(SV_FOLDER + f"/mnle_n{num_simulations}_no_noise.p", 'rb') as f:
+    with open(sv_folder + f"/mnle_n{num_simulations}_no_noise.p", 'rb') as f:
         estimator = pickle.load(f)
     estimator = estimator['estimator']
     x0 = get_x0()  # get initial parameter configuration
