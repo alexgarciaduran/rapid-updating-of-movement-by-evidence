@@ -80,9 +80,6 @@ def plot_mt_vs_evidence(df, ax, condition='choice_x_coh', prior_limit=0.25,
     # vertical line at 0
     ax.axvline(x=0, color='k', linestyle='--', linewidth=0.6)
     # get where prior is NaN
-    nanidx = df.loc[df[['dW_trans', 'dW_lat']].isna().sum(axis=1) == 2].index
-    df['allpriors'] = np.nansum(df[['dW_trans', 'dW_lat']].values, axis=1)
-    df.loc[nanidx, 'allpriors'] = np.nan
     if condition == 'choice_x_prior':  # prior congruency
         df['choice_x_prior'] = (df.R_response*2-1) * df.norm_allpriors
     # define bins (equipopulated for prior)

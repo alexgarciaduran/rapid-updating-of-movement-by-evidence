@@ -23,10 +23,6 @@ def plots_trajs_conditioned(df, ax, data_folder, condition='choice_x_coh', cmap=
         - condition == "origidx": trial index
     """
     interpolatespace = np.linspace(-700000, 1000000, 1700)  # space of interpolation
-    nanidx = df.loc[df[['dW_trans', 'dW_lat']].isna().sum(axis=1) == 2].index
-    df['allpriors'] = np.nansum(df[['dW_trans', 'dW_lat']].values, axis=1)
-    df.loc[nanidx, 'allpriors'] = np.nan
-    df['norm_allpriors'] = fp.norm_allpriors_per_subj(df)
     # transform variables into congruent/incongruent with final response
     df['choice_x_prior'] = (df.R_response*2-1) * df.norm_allpriors
     df['choice_x_coh'] = (df.R_response*2-1) * df.coh2
@@ -383,7 +379,7 @@ def get_splitting_mat_simul(df, side, rtbin=0, rtbins=np.linspace(0, 150, 7),
     """
     Create matrix that will be used to compute splitting time for simulation data.
     """
-    def shortpad2(row, upto=1400, align='movement', pad_value=np.nan,
+    def shortpad2(row, upto=700, align='movement', pad_value=np.nan,
                   pad_pre=0):
         """pads nans to trajectories so it can be stacked in a matrix
         align can be either 'movement' (0 is movement onset), or 'sound'

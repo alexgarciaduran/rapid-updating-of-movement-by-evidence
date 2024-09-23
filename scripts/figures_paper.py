@@ -238,7 +238,7 @@ def groupby_binom_ci(x, method="beta"):
             proportion_confint(x.sum(), len(x), method=method)]
 
 
-def run_model(stim, zt, coh, gt, trial_index, human=False,
+def run_model(stim, zt, coh, gt, trial_index, human=False, sv_folder='',
               subject=None, num_tr=None, load_params=True, params_to_explore=[],
               extra_label=''):
     """
@@ -314,13 +314,13 @@ def run_model(stim, zt, coh, gt, trial_index, human=False,
     else:
         # load parameters
         if human:
-            conf = np.load(SV_FOLDER +
+            conf = np.load(sv_folder +
                            'parameters_MNLE_BADS_human_subj_' + str(subject) + '.npy')
         else:
             if 'virt' not in str(extra_label):  # not parameter recovery
-                conf = np.load(SV_FOLDER + 'parameters_MNLE_BADS' + subject + '.npy')
+                conf = np.load(sv_folder + 'parameters_MNLE_BADS' + subject + '.npy')
             if 'virt' in str(extra_label):  # parameter recovery (another folder)
-                conf = np.load(SV_FOLDER + 'virt_params/' + 'parameters_MNLE_BADS_prt_n50_' +
+                conf = np.load(sv_folder + 'virt_params/' + 'parameters_MNLE_BADS_prt_n50_' +
                                str(extra_label) + '.npy')
         jitters = len(conf)*[0]
         # check if there are params to explore
@@ -754,7 +754,8 @@ def stim_generation(coh, data_folder=DATA_FOLDER, stim_res=5, sigma=0.1,
 
 
 def get_simulated_data_extra_lab(subjects, subjid, stim, zt, coh, gt, trial_index,
-                                 special_trial, extra_label='_1_ro'):
+                                 special_trial, extra_label='_1_ro', sv_folder='',
+                                 data_folder=''):
     """
     Simulate data given an extra label. Returns a dataframe with the simulated data.
     """
@@ -764,7 +765,8 @@ def get_simulated_data_extra_lab(subjects, subjid, stim, zt, coh, gt, trial_inde
         run_simulation_different_subjs(stim=stim, zt=zt, coh=coh, gt=gt,
                                        trial_index=trial_index, num_tr=num_tr,
                                        subject_list=subjects, subjid=subjid,
-                                       simulate=False, extra_label=extra_label)
+                                       simulate=False, extra_label=extra_label,
+                                       sv_folder=sv_folder, data_folder=data_folder)
     MT = [len(t) for t in trajs]  # given that for trajs dt=1ms, MT (in ms) is just the length of the trajectory
     df_sim = pd.DataFrame({'coh2': coh, 'avtrapz': coh, 'trajectory_y': trajs,
                            'sound_len': reaction_time,
@@ -793,7 +795,8 @@ def get_simulated_data_extra_lab(subjects, subjid, stim, zt, coh, gt, trial_inde
 def run_simulation_different_subjs(stim, zt, coh, gt, trial_index, subject_list,
                                    subjid, human=False, num_tr=None, load_params=True,
                                    simulate=True, change_param=False, param_iter=None,
-                                   params_to_explore=[], extra_label=''):
+                                   params_to_explore=[], extra_label='',
+                                   data_folder='', sv_folder=''):
     """
     Runs simulations for different subjects and returns the simulated data for all subjects.
     """
@@ -813,14 +816,14 @@ def run_simulation_different_subjs(stim, zt, coh, gt, trial_index, subject_list,
             index = range(num_tr)
         if not human:
             if change_param:
-                sim_data = DATA_FOLDER + subject + '/sim_data/' + subject + '_simulation_' + str(param_iter) + '.pkl'
+                sim_data = data_folder + subject + '/sim_data/' + subject + '_simulation_' + str(param_iter) + '.pkl'
             else:
-                sim_data = DATA_FOLDER + subject + '/sim_data/' + subject + '_simulation' + str(extra_label) + '.pkl'
+                sim_data = data_folder + subject + '/sim_data/' + subject + '_simulation' + str(extra_label) + '.pkl'
         if human:
             if change_param:
-                sim_data = DATA_FOLDER + '/Human/' + str(subject) + '/sim_data/' + str(subject) + '_simulation_' + str(param_iter) + '.pkl'
+                sim_data = data_folder + '/Human/' + str(subject) + '/sim_data/' + str(subject) + '_simulation_' + str(param_iter) + '.pkl'
             else:
-                sim_data = DATA_FOLDER + '/Human/' + str(subject) + '/sim_data/' + str(subject) + '_simulation.pkl'
+                sim_data = data_folder + '/Human/' + str(subject) + '/sim_data/' + str(subject) + '_simulation.pkl'
         # create folder if it doesn't exist
         os.makedirs(os.path.dirname(sim_data), exist_ok=True)
         if os.path.exists(sim_data) and not simulate:  # load data if exists
@@ -840,7 +843,8 @@ def run_simulation_different_subjs(stim, zt, coh, gt, trial_index, subject_list,
                 run_model(stim=stim[:, index], zt=zt[index], coh=coh[index],
                           gt=gt[index], trial_index=trial_index[index],
                           subject=subject, load_params=load_params, human=human,
-                          params_to_explore=params_to_explore, extra_label=extra_label)
+                          params_to_explore=params_to_explore, extra_label=extra_label,
+                          sv_folder=sv_folder)
             data_simulation = {'hit_model_tmp': hit_model_tmp, 'reaction_time_tmp': reaction_time_tmp,
                                'detected_com_tmp': detected_com_tmp, 'resp_fin_tmp': resp_fin_tmp,
                                'com_model_tmp': com_model_tmp, 'pro_vs_re_tmp': pro_vs_re_tmp,
@@ -1007,9 +1011,9 @@ def plot_corr_matrix_prt(ax, ax2,
     conf_mat = np.empty((len(labels), len(subjects)))
     conf_mat_rec = np.empty((len(labels), len(subjects)))
     for i_s, subject in enumerate(subjects):  # for each subject, load virt (original) and rec (recovered) parameters
-        conf = np.load(SV_FOLDER + 'virt_params/' +
+        conf = np.load(sv_folder + 'virt_params/' +
                        'parameters_MNLE_BADS_prt_n50_' + 'virt_sim_' + str(i_s) + '.npy')
-        conf_rec =  np.load(SV_FOLDER + 'virt_params/' +
+        conf_rec =  np.load(sv_folder + 'virt_params/' +
                             'parameters_MNLE_BADS_prt_n50_prt_' + str(i_s) + '.npy')
         conf_mat[:, i_s] = conf
         conf_mat_rec[:, i_s] = conf_rec

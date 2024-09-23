@@ -18,6 +18,7 @@ def plot_mt_vs_stim_cong_and_prev_pcom_mats_different_models(subjects, subjid, s
                                                              zt, coh, gt, trial_index,
                                                              special_trial,
                                                              data_folder, ax, fig,
+                                                             sv_folder,
                                                              extra_labels=['_2_ro',
                                                                            '_1_ro',''],
                                                              alpha_list=[1, 0.3],
@@ -34,7 +35,9 @@ def plot_mt_vs_stim_cong_and_prev_pcom_mats_different_models(subjects, subjid, s
     for i_l, lab in enumerate(extra_labels):  # for each alternative model
         # load/simulate data given extra lab
         df_data = fp.get_simulated_data_extra_lab(subjects, subjid, stim, zt, coh, gt, trial_index,
-                                                  special_trial, extra_label=lab)
+                                                  special_trial, extra_label=lab,
+                                                  data_folder=data_folder,
+                                                  sv_folder=sv_folder)
         df_mt = df_data.copy()
         # plot MT vs stim as in Figure 1f
         fig_1.plot_mt_vs_evidence(df=df_mt, ax=ax[1+i_l*4], prior_limit=0.1,  # 10% quantile
@@ -144,8 +147,8 @@ def fig_7(subjects, subjid, stim, zt, coh, gt, trial_index,
     # plots
     plot_mt_vs_stim_cong_and_prev_pcom_mats_different_models(
         subjects, subjid, stim, zt, coh, gt, trial_index,
-        special_trial, data_folder, ax=ax, fig=fig,
-        extra_labels=extra_labels)
+        special_trial, data_folder=data_folder, ax=ax, fig=fig,
+        extra_labels=extra_labels, sv_folder=sv_folder)
     # tune panels
     yvals_text = [0.7, 1.1, 1.1, 1.1]
     for i in range(4):
@@ -207,7 +210,7 @@ def supp_prior_only_continuous(subjects, subjid, stim, zt, coh, gt, trial_index,
     plot_mt_vs_stim_cong_and_prev_pcom_mats_different_models(
         subjects, subjid, stim, zt, coh, gt, trial_index,
         special_trial, data_folder, ax=ax, fig=fig,
-        extra_labels=extra_labels)
+        extra_labels=extra_labels, data_folder=data_folder)
     # tune panels
     yvals_text = [0.7, 1.1, 1.1, 1.1]
     for i in range(2):
