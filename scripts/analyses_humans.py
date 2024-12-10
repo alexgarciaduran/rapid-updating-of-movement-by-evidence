@@ -96,13 +96,7 @@ def data_processing(data_tr, data_traj, rgrss_folder, sv_folder,
     subjid = data_tr['subjid']
     choice_12 = choice + 1
     choice_12[~valid] = 0
-    data = {'signed_evidence': ev, 'choice': choice_12,
-            'performance': perf}
-    if rgrss_folder is None:
-        df_regressors = get_GLM_regressors(data, tau=2)
-        df_regressors.to_csv(sv_folder + 'df_regressors_all_sub.csv')
-    else:
-        df_regressors = pd.read_csv(rgrss_folder+'df_regressors_all_sub.csv')
+    df_regressors = pd.read_csv(rgrss_folder+'df_regressors_all_sub.csv')
     ind_af_er = df_regressors['aftererror'] == 0
     subjid = subjid[ind_af_er]
     ev = ev[ind_af_er]
