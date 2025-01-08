@@ -1,5 +1,5 @@
 # rapid-updating-of-movement-by-evidence
-Repository for the paper ["Rapid, systematic updating of movement by accumulated decision evidence"](https://www.biorxiv.org/content/10.1101/2023.11.09.566389v2) by Manuel Molano-Mazón, Alexandre Garcia-Duran, Jordi Pastor-Ciurana, Lluís Hernández-Navarro, Lejla Bektic, Debora Lombardo, Jaime de la Rocha & Alexandre Hyafil.
+Repository for the paper ["Rapid, systematic updating of movement by accumulated decision evidence"](https://www.nature.com/articles/s41467-024-53586-7) by Manuel Molano-Mazón, Alexandre Garcia-Duran, Jordi Pastor-Ciurana, Lluís Hernández-Navarro, Lejla Bektic, Debora Lombardo, Jaime de la Rocha & Alexandre Hyafil.
 
 <img src="figs/figure_5.png"
      alt="Figure 5"
@@ -31,12 +31,17 @@ pip install -r requirements.txt
 
 ### Citation
 ```
-@Article{MolanoMazon2023,
+@Article{10.1038/s41467-024-53586-7,
   author    = {Molano-Mazón, Manuel and Garcia-Duran, Alexandre and Pastor-Ciurana, Jordi and Hernández-Navarro, Lluís and Bektic, Lejla and Lombardo, Debora and de la Rocha, Jaime and Hyafil, Alexandre},
+  journal   = {Nature Communications},
   title     = {Rapid, systematic updating of movement by accumulated decision evidence},
-  year      = {2023},
-  month     = nov,
-  doi       = {10.1101/2023.11.09.566389},
-  publisher = {Cold Spring Harbor Laboratory},
+  year      = {2024},
+  issn      = {2041-1723},
+  month     = dec,
+  number    = {1},
+  volume    = {15},
+  doi       = {10.1038/s41467-024-53586-7},
+  url       = {https://www.nature.com/articles/s41467-024-53586-7},
+  publisher = {Springer Science and Business Media LLC},
 }
 ```
